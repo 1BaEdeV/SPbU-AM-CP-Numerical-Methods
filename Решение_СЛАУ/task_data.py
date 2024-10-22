@@ -3,70 +3,71 @@ class Matdata:
         self.A = a
         self.b = b
 
-test0 = Matdata(
-    [[0,2,3],
-        [1,2,3],
-        [2,3,4]],
+N = 2.
 
-    [13,17,32]
-)
+def testdata(n):
+    if n == 0:
+        data = Matdata(
+            [[0.,2.,3.],
+                [1.,2.,3.],
+                [2.,3.,4.]],
 
-N = 1
+            [13.,17.,32.]
+        )
+        return data
 
-test1 = Matdata(
-  [[N+2, 1, 1],
-      [1, N+4, 1],
-      [1, 1, N+6]],
+    if n ==1:
+        data = Matdata(
+          [[N+2., 1., 1.],
+              [1., N+4., 1.],
+              [1., 1., N+6.]],
 
-    [N+4, N+6, N+8]
-)
-test2 = Matdata(
-  [[-(N+2), 1, 1],
-     [1, -(N+4), 1],
-     [1, 1, -(N+6)]],
+            [N+4., N+6., N+8.]
+        )
+        return data
+    if n == 2:
+        data = Matdata(
+          [[-(N+2.), 1., 1.],
+             [1., -(N+4.), 1.],
+             [1., 1., -(N+6.)]],
 
-  [-(N+4), -(N+6), -(N+8)]
-)
+          [-(N+4.), -(N+6.), -(N+8.)]
+        )
+        return data
+    if n == 3:
+        data = Matdata(
+            [[-(N + 2.), N+3., N+4.],
+             [N+5., -(N + 4.), N+1.],
+             [N+4., N+5., -(N + 6.)]],
 
-test3 = Matdata(
-    [[-(N + 2), N+3, N+4],
-     [N+5, -(N + 4), N+1],
-     [N+4, N+5, -(N + 6)]],
+            [N + 4., N + 6., N + 8.]
+        )
+        return data
+    if n == 4:
+        data = Matdata(
+            [[N + 2., N+1., N+1.],
+             [N+1., N + 4., N+1.],
+             [N+1., N+1., N + 6.]],
 
-    [N + 4, N + 6, N + 8]
-)
+            [N + 4., N + 6., N + 8.]
+        )
+        return data
 
-test4 = Matdata(
-    [[N + 2, N+1, N+1],
-     [N+1, N + 4, N+1],
-     [N+1, N+1, N + 6]],
-
-    [N + 4, N + 6, N + 8]
-)
-n = 3
-e=10^-4
-masA=[]
-masb=[]
-prom=[]
-for i in range(n):
-    for j in range(n):
-        if i==j:
-            prom.append(1)
-        if i<j:
-            prom.append(-1)
-        else:
-            prom.append(0)
-        masb.append(-1)
-        if j==n-1:
+def test5(n,eps=10**-4):
+    masA=[]
+    masb=[]
+    prom=[]
+    for i in range(n):
+        prom=[]
+        for j in range(n):
+            if i==j:
+                prom.append(1+eps*N)
+            if i<j:
+                prom.append(-1-eps*N)
+            if j<i:
+                prom.append(eps*N)
+        if i==n-1:
             masb.append(1)
-    masA.append(prom)
-
-test5 = Matdata(masA,masb)
-
-
-
-
-
-
-
-
+        else:masb.append(-1)
+        masA.append(prom)
+    return Matdata(masA,masb)
