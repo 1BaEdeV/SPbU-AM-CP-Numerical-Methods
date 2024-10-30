@@ -9,8 +9,8 @@ def testdata(n):
     if n == 0:
         data = Matdata(
             [[0.,2.,3.],
-                [1.,2.,3.],
-                [2.,3.,4.]],
+                [1.,2.,4.],
+                [4.,5.,6.]],
 
             [13.,17.,32.]
         )
@@ -71,3 +71,5 @@ def test5(n,eps=10**-4):
         else:masb.append(-1)
         masA.append(prom)
     return Matdata(masA,masb)
+
+print(test5(4,0.001).A)
