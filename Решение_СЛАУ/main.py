@@ -17,7 +17,7 @@ def main():
         arr = numpy.linalg.solve(M1,v1)
         arr=arr.tolist()
         print(arr)
-        res,n = MoSI(A, b, 10**-3)
+        res,n = MoSI(A, b, 10**-5)
         print("Решение методом простых иетраций")
         res.PrintM()
         print(f'Количество итераций {n}, Заданная п. {eps}, Абсолютная п. {(res-(class_matrix.Matrix(arr))).vecnorma()}')
@@ -26,7 +26,7 @@ def main():
 
         print("Точное решение")
         print(arr)
-        res, n = Seidel(A, b)
+        res, n = Seidel(A, b, 10**-5)
         print("Решение методом Зейделя")
         res.PrintM()
         print(
@@ -96,6 +96,8 @@ def main():
             print("Решение методом QR разложения")
             res.PrintM()
             print(f'Количество итераций {n}, Заданная п. {eps}, Заданный размер матрицы {k}, Заданный епсилон{epss}, Абсолютная п. {(res - (class_matrix.Matrix(arr))).vecnorma()}')
+
+            print("-" * 50)
 
 
 if __name__ == '__main__':

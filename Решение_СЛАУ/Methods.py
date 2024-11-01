@@ -54,24 +54,24 @@ def LUP(A,b):
     E=A.E()
     M=A.copy()
     P=E.copy()
-    maxi = 0
-    k = 0
     "Преобразовываем матрицу исходную и матрицу перестановок"
     for i in range(n-1):
         k=i
         for j in range(i,n):
-            if maxi<abs(M.matrix[j][i]):
-                maxi=M.matrix[j][i]
+            if abs(M.matrix[i][k])<abs(M.matrix[j][i]):
                 k=j
-        for l in range(i,n):
-            c=M.matrix[i][l]
-            M.matrix[i][l]=M.matrix[k][l]
-            M.matrix[k][l]=c
+        c=M.getitem("raw",k)
+        t=M.getitem("raw",i)
+        M.matrix[k],M.matrix[i]=t,c
+        c = P.getitem("raw", k)
+        t = P.getitem("raw", i)
+        P.matrix[k], P.matrix[i] = t, c
         "Преобразовываем элементы матрицы M"
         for l in range(i+1,n):
             M.matrix[l][i]=M.matrix[l][i]/ M.matrix[i][i]
             for m in range(i+1,n):
                 M.matrix[l][m]=M.matrix[l][m]-M.matrix[l][i]*M.matrix[i][m]
+
     "Раскладываем M на матрицы L и U"
     L=E.copy()
     U=E.copy()
@@ -86,13 +86,14 @@ def LUP(A,b):
                 U.matrix[i][j]=0
                 L.matrix[i][j]=M.matrix[i][j]
     "Решаем систему Ly=Pb Ux=y"
+    (~P*L*U).PrintM()
     Pb=P*b
     y=Matrix.Matrix([0 for i in range(len(A.matrix))])
     "Вычисляем Ly=Pb"
-    for i in range(n):
-        y.matrix[i]=Pb.matrix[i]
-        for j in range(i):
-            y.matrix[i][0]-=L.matrix[i][j]*y.matrix[j][0]
+    for k in range(n):
+        y.matrix[k][0]=Pb.matrix[k][0]
+        for i in range(k):
+            y.matrix[k][0]-=L.matrix[k][i]*y.matrix[i][0]
     "Обратным ходом по матрице вычисляем Ux=y"
     x=Matrix.Matrix([0 for i in range(len(A.matrix))])
     for i in reversed(range(n)):
@@ -120,7 +121,7 @@ def QR(A,b):
                 Qprom.matrix[j][k] = Qprom_.matrix[j - i][k - i]
         Q = Q * ~Qprom
         R = Qprom * R
-
+    """QRx=b и Rx=QTb"""
     y=~Q*b
     x = Matrix.Matrix([0 for i in range(len(A.matrix))])
     for i in reversed(range(n)):
