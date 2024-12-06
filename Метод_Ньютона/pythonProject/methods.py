@@ -1,6 +1,8 @@
 import math
-
-def brude_force(func, a,b):
+from Решение_СЛАУ.Methods import LUP
+from Решение_СЛАУ.class_matrix import *
+from funcs import *
+def brudef(func, a,b):
     n=1
     x=a
     while True:
@@ -8,6 +10,7 @@ def brude_force(func, a,b):
             x=a
             n/=2
         xk=x+n
+        print(xk, x)
         if func(xk)*func(xk) < 0:
             return x,xk
         if func(xk)*func(xk) == 0:
@@ -16,7 +19,7 @@ def brude_force(func, a,b):
             if func(xk) == 0:
                 return xk,xk
         x=xk
-def resh_search(func,dfunc,a,b,eps=10**-5):
+def newton(func,dfunc,a,b,eps=10**-5):
     """Метод хорд"""
     ak=a
     bk=b
@@ -30,21 +33,41 @@ def resh_search(func,dfunc,a,b,eps=10**-5):
         xk=x-func(x)/dfunc(x)
         if not(ak<=xk<=bk):
             xk = (ak+bk)/2
-        c = func(xk)
-        if c<0:
-            ak=c
-        if c>=0:
-            bk=c
+        if func(a)*func(xk) < 0:
+            bk=xk
+        else:
+            ak=xk
         if abs(xk-x) < eps:
             return xk
-        print(xk)
         x=xk
-def func(a):
-    return a+5
-def dfunc(a):
-    return 1
-print(resh_search(func,dfunc, -10,10))
-ч
+
+def sysbrudef(sysfunc, dsysfunc):
+    n=10
+    values=Matrix([0,0])
+    i=0
+    while i<=n:
+        delta=LUP(dsysfunc(values.matrix[0][0],values.matrix[1][0],i/n),-1*sysfunc(values.matrix[0][0],values.matrix[1][0],i/n))
+        values+=delta
+        i+=1
+    return values
+
+
+
+def sysnewton(sysfunc, dsysfunc,eps=10**-4):
+    values = sysbrudef(sysfunc, dsysfunc)
+    print("Начальное приблежение")
+    values.PrintM()
+    print("")
+    while True:
+        delta=delta=LUP(dsysfunc(values.matrix[0][0],values.matrix[1][0]),-1*sysfunc(values.matrix[0][0],values.matrix[1][0]))
+        values_=delta+values
+        if (values_-values).vecnorma() < eps:
+            return values_
+        values=values_
+
+
+
+
 
 
 

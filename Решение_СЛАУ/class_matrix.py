@@ -1,9 +1,8 @@
 import math
-
-import funcs
+from Решение_СЛАУ.funcs import *
 class Matrix:
     def __init__(self, matr=[]):
-        if  not funcs.is_2d_array(matr):
+        if  not is_2d_array(matr):
             result=[]
             for i in range(len(matr)):
                 res=[]
@@ -49,7 +48,7 @@ class Matrix:
 
     def PrintM(self):
         """Вывод матрицы с выравниванием, включая случай с вектором, с поддержкой float и int"""
-        if funcs.is_vector(self.matrix):
+        if is_vector(self.matrix):
             # Выводим только первый столбец
             for row in self.matrix:
                 print("".join(f"{row[0]:7.15f}" if isinstance(row[0], float) else f"{row[0]:3}"))

@@ -1,4 +1,4 @@
-import class_matrix as Matrix
+import Решение_СЛАУ.class_matrix as Matrix
 
 def MoSI(A,b, eps=10**-7):
     nu = 1 / A.normainf()
@@ -86,7 +86,6 @@ def LUP(A,b):
                 U.matrix[i][j]=0
                 L.matrix[i][j]=M.matrix[i][j]
     "Решаем систему Ly=Pb Ux=y"
-    (~P*L*U).PrintM()
     Pb=P*b
     y=Matrix.Matrix([0 for i in range(len(A.matrix))])
     "Вычисляем Ly=Pb"
