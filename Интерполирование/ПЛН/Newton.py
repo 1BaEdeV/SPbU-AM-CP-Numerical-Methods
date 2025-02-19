@@ -11,7 +11,7 @@ def Nn(x, a, b, n):
     xmas = Nuzl(a, b, n)
     coef = divided_differences(n, xmas)
     p = coef[n-1]
-    for k in range(n-2, -1, -1):  # Итерируемся в обратном порядке
+    for k in range(n-2, -1, -1):
         p = p * (x - xmas[k]) + coef[k]
     return p
 
@@ -19,6 +19,6 @@ def Noptn(x, a, b, n):
     xmas = Optuzl(a, b, n)
     coef = divided_differences(n, xmas)
     p = coef[n-1]
-    for k in range(n-2, -1, -1):  # Итерируемся в обратном порядке
+    for k in range(n-2, -1, -1):
         p = p * (x - xmas[k]) + coef[k]
     return p

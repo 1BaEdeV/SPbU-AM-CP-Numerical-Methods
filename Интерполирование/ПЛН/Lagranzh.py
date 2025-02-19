@@ -7,8 +7,6 @@ def basis(x, method, k, n, a=-2, b=5):
         if j != k:
             basis*=(x-mas[j])/(mas[k]-mas[j])
     return basis*f(mas[k])
-
-# Интерполяционные полиномы
 def Ln(x, a, b, n):
     return sum(basis(x,1, i, n,a,b) for i in range(n))
 

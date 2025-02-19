@@ -1,4 +1,3 @@
-from numpy import *
 from Решение_СЛАУ import class_matrix
 from Решение_СЛАУ import Methods
 from ПЛН.funcs import *
@@ -24,11 +23,10 @@ def LinearSpline(x,Acoefs,Xargs,n):
 def quadrSply(a, b, n) -> list:
     Xargs = Nuzl(a, b, n)
     Yargs = [f(Xargs[i]) for i in range(len(Xargs))]
-    Acoefs = [0] * (3 * (n - 1))  # Исправлено: теперь коэффициентов 3 * (n-1)
+    Acoefs = [0] * (3 * (n - 1))
     X = []
     Y = []
-    for i in range(n - 1):  # Учитываем только n-1 интервалов
-        # Добавляем уравнения интерполяции для точек
+    for i in range(n - 1):
         for j in range(2):
             mas = [0] * (3 * (n - 1))
             mas[i * 3] = Xargs[i + j] ** 2
@@ -36,9 +34,7 @@ def quadrSply(a, b, n) -> list:
             mas[i * 3 + 2] = 1
             X.append(mas)
             Y.append(Yargs[i + j])
-
-        # Добавляем условия непрерывности первой производной (кроме последнего узла)
-        if i < n - 2:  # Исправлено: `n - 1` было лишним, корректное ограничение `n - 2`
+        if i < n - 2:
             mas = [0] * (3 * (n - 1))
             mas[i * 3] = 2 * Xargs[i + 1]
             mas[i * 3 + 1] = 1
@@ -46,8 +42,6 @@ def quadrSply(a, b, n) -> list:
             mas[(i + 1) * 3 + 1] = -1
             X.append(mas)
             Y.append(0)
-
-    # Граничное условие: первая производная в начальной точке = 0 (естественный сплайн)
     mas = [0] * (3 * (n - 1))
     mas[0] = 2
     X.append(mas)
@@ -58,7 +52,7 @@ def quadrSply(a, b, n) -> list:
 
     solve = Methods.LUP(X, Y)
 
-    for i in range(n - 1):  # Исправлено: `range(n)` → `range(n-1)`
+    for i in range(n - 1):
         Acoefs[3 * i] = float(solve.matrix[3 * i][0])
         Acoefs[3 * i + 1] = float(solve.matrix[3 * i + 1][0])
         Acoefs[3 * i + 2] = float(solve.matrix[3 * i + 2][0])
@@ -67,10 +61,9 @@ def quadrSply(a, b, n) -> list:
 
 
 def QuadraticSpline(x,Xargs,Acoefs,n)->list:
-    #print(Acoefs)
     for i in range(n):
         if Xargs[i] <= x <= Xargs[i + 1]:
-            return Acoefs[3 * i] * (x ** 2) + Acoefs[3 * i + 1] * x + Acoefs[3 * i + 2]  # Квадратичный вид ax^2+b*x+c
+            return Acoefs[3 * i] * (x ** 2) + Acoefs[3 * i + 1] * x + Acoefs[3 * i + 2]
 
 def cubSply(a,b,n)->list:
     Xargs = Nuzl(a, b, n)
@@ -106,7 +99,6 @@ def cubSply(a,b,n)->list:
 
 
 def CubicSpline(x, Xargs, coefs,n) -> float:
-    # Обрабатываем все узлы сплайна
     for i in range(n-1):
         if Xargs[i] <= x <= Xargs[i + 1]:
             return coefs[4*i] + coefs[4*i + 1]*(x-Xargs[i])+coefs[4*i + 2]*(x-Xargs[i])**2+coefs[i*4 + 3]*(x-Xargs[i])**3

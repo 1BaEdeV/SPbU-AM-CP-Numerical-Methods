@@ -8,7 +8,7 @@ def Nuzl(a, b, n):
     return [a + i * (b - a) / (n-1) for i in range(n)]
 
 def Optuzl(a, b, n):
-    return [0.5 * ((b - a) * cos((2 * i + 1) * np.pi / (2 * n + 2)) + (b + a)) for i in range(n + 1)]
+    return [0.5 * ((b - a) * cos((2 * i + 1) * np.pi / (2 * n + 2)) + (b + a)) for i in range(n)]
 
 def max_deviation(f, ipf):
     return max(abs(f[i]-ipf[i]) for i in range(len(ipf)))
