@@ -57,20 +57,18 @@ def richardson(quad, f, a, b, alpha, beta, eps=1e-6, min_part=2, max_part=np.inf
     """Метод Ричардсона с оценкой скорости сходимости по Эйткену"""
     r, R = 2, np.inf
     best_step, best_part = 0, 0
-    len = b - a
+    interval_length = b - a
 
     while R > eps and 2 ** r * min_part <= max_part:
         # Вычисляем интегралы на последовательных сетках
         values = [quad(f, a, b, alpha, beta, parts=2 ** i * min_part) for i in range(r + 1)]
-        print(values)
-        print(len(values))
         # Оценка скорости сходимости по Эйткену
         if len(values) >= 3:
             m = -np.log((values[-1] - values[-2]) / (values[-2] - values[-3])) / np.log(2)
         else:
             m = 4  # Эмпирическая оценка для начала
 
-        steps = [len / (2 ** i * min_part) for i in range(r + 1)]
+        steps = [interval_length / (2 ** i * min_part) for i in range(r + 1)]
 
         # Уточнение по Ричардсону
         if len(values) >= 3:
@@ -81,7 +79,7 @@ def richardson(quad, f, a, b, alpha, beta, eps=1e-6, min_part=2, max_part=np.inf
 
         if cur_R < R:
             best_part = 2 ** r * min_part
-            best_step = len / best_part
+            best_step = interval_length / best_part
             R = cur_R
             best_value = J if len(values) >= 3 else values[-1]
 
