@@ -1,10 +1,15 @@
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy import integrate
 
 
 def f(x):
     return 3 * math.cos(0.5 * x) * math.exp(x / 4) + 5 * math.sin(2.5 * x) * math.exp(-x / 3) + 2 * x
+
+def F(x):
+    return f(x)*(3.2-x)**(-1/4)
+
 
 def left_triangle(f, a, b, parts=100):
     res = 0
@@ -49,7 +54,7 @@ def Simpson(f, a, b, parts=100):
     for i in range(parts):
         lborder = a + i * (b - a) / parts
         rborder = a + (i + 1) * (b - a) / parts
-        res += (rborder - lborder) * (f(rborder) + 4 * f((lborder + rborder) / 2) + f(rborder)) / 6
+        res += (rborder - lborder) * (f(lborder) + 4 * f((lborder + rborder) / 2) + f(rborder)) / 6
     return res
 
 
@@ -63,32 +68,46 @@ def richardson(quad, f, a, b, alpha, beta, eps=1e-6, min_part=2, max_part=np.inf
         # Вычисляем интегралы на последовательных сетках
         values = [quad(f, a, b, alpha, beta, parts=2 ** i * min_part) for i in range(r + 1)]
         # Оценка скорости сходимости по Эйткену
-        if len(values) >= 3:
-            m = -np.log((values[-1] - values[-2]) / (values[-2] - values[-3])) / np.log(2)
-        else:
-            m = 4  # Эмпирическая оценка для начала
-
+        m = -np.log((values[-1] - values[-2]) / (values[-2] - values[-3])) / np.log(2)
+        print("изменение m ",m)
         steps = [interval_length / (2 ** i * min_part) for i in range(r + 1)]
 
+        # Формируем матрицу для экстраполяции Ричардсона
+        # Размер матрицы (r+1) x (r+1)
+        step_matrix = []
+        for j in range(r + 1):  # по строкам
+            row = [-1]  # первый элемент строки всегда -1
+            for i in range(r):  # по столбцам (кроме первого)
+                element = steps[j] ** (m + i)
+                row.append(element)
+            step_matrix.append(row)
+
+        # Преобразуем в numpy массивы
+        step_matrix = np.array(step_matrix)
+        values_vec = np.array(values)
+
         # Уточнение по Ричардсону
-        if len(values) >= 3:
-            J = values[-1] + (values[-1] - values[-2]) / (2 ** m - 1)
-            cur_R = abs(J - values[-1])
-        else:
-            cur_R = np.inf
-
+        J = np.linalg.solve(step_matrix, -values_vec)
+        toch, error=integrate.quad(F,a,b)
+        cur_R = abs(J[0] - toch)
         if cur_R < R:
-            best_part = 2 ** r * min_part
-            best_step = interval_length / best_part
+            best_part = int(interval_length / steps[-1])
+            best_step = steps[-1]
             R = cur_R
-            best_value = J if len(values) >= 3 else values[-1]
-
         r += 1
+    print("r= ",r)
+    return R, best_step, best_part
 
-    return best_value, R, best_step, best_part
+
+def calc_h_opt(quad, f,a,b,alpha,beta,h_list3,eps = 1e-6):
+    values = [quad(f, a, b, alpha, beta, i) for i in h_list3]
+    m = -np.log((values[-1] - values[-2]) / (values[-2] - values[-3])) / np.log(2)
+    h_opt = h_list3[0] * (eps * (1 - 2 ** (-m)) / abs(values[0] - values[1])) ** (1 / m)
+    return h_opt
 
 
-def plot_error_vs_partitions(methods_dict, exact_value, a, b, max_parts=1000, step=1):
+
+def plot_error_vs_partitions(flag,f,methods_dict, exact_value, a, b, al,bet, max_parts=1000, step=1):
     """
     Строит график зависимости абсолютной погрешности от количества разбиений
     для различных квадратурных формул.
@@ -112,7 +131,10 @@ def plot_error_vs_partitions(methods_dict, exact_value, a, b, max_parts=1000, st
 
         for parts in partitions:
             # Вычисляем приближенное значение интеграла
-            approx_value = method_func(f, a, b, parts)
+            if flag == 1:
+                approx_value = method_func(f, a, b, parts)
+            if flag == 2:
+                approx_value = method_func(f, a, b, al, bet, parts)
             # Вычисляем абсолютную погрешность
             error = abs(exact_value - approx_value)
             errors.append(error)
@@ -129,7 +151,7 @@ def plot_error_vs_partitions(methods_dict, exact_value, a, b, max_parts=1000, st
     plt.show()
 
 
-def compare_integration_methods(a=0, b=2, exact_value=None, max_parts=1000):
+def compare_integration_methods(flag,f,methods,a=0, b=2, al=0,bet=0, exact_value=None, max_parts=1000):
     """
     Сравнивает все доступные методы интегрирования для функции f(x).
 
@@ -142,22 +164,17 @@ def compare_integration_methods(a=0, b=2, exact_value=None, max_parts=1000):
     # Если точное значение не задано, вычисляем его с высокой точностью
     if exact_value is None:
         # Используем метод Симпсона с большим количеством разбиений как эталон
-        exact_value = Simpson(f, a, b, 10000)
+        if flag ==1:
+            exact_value, error = integrate.quad(f, a, b, )
+        if flag ==2:
+            exact_value, error = integrate.quad(F, a, b )
         print(f"Точное значение интеграла (вычислено): {exact_value}")
     else:
         print(f"Точное значение интеграла: {exact_value}")
 
-    # Словарь всех доступных методов
-    methods = {
-        'Левые прямоугольники': left_triangle,
-        'Правые прямоугольники': right_triangle,
-        'Средние прямоугольники': average_triangle,
-        'Трапеции': trapezoid,
-        'Симпсон': Simpson
-    }
 
     # Строим график сравнения
-    plot_error_vs_partitions(methods, exact_value, a, b, max_parts)
+    plot_error_vs_partitions(flag,f,methods, exact_value, a, b,al,bet ,max_parts)
 
     # Выводим численные результаты для нескольких значений разбиений
     test_partitions = [10, 50, 100]
@@ -168,10 +185,11 @@ def compare_integration_methods(a=0, b=2, exact_value=None, max_parts=1000):
     for method_name, method_func in methods.items():
         results = []
         for parts in test_partitions:
-            approx = method_func(f, a, b, parts)
+            if flag == 1:
+                approx = method_func(f, a, b, parts)
+            if flag == 2:
+                approx = method_func(f, a, b, al, bet, parts)
             error = abs(exact_value - approx)
             results.append(f"{error:.2e}")
 
         print(f"{method_name:<25} {results[0]:<15} {results[1]:<15} {results[2]:<15}")
-
-
