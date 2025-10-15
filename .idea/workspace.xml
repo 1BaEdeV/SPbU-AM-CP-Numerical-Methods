@@ -4,15 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5c7e0294-b355-4684-9c57-d55574067088" name="Changes" comment="" />
+    <list default="true" id="5c7e0294-b355-4684-9c57-d55574067088" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Задача_Коши/funcs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Задача_Коши/main.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SPbU-AM-CP-Numerical-Methods.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SPbU-AM-CP-Numerical-Methods.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "1BaEdeV"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/1BaEdeV/SPbU-AM-CP-Numerical-Methods.git",
+    "accountId": "8d516f11-6cf5-4e1e-b311-d3e9cddedadb"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -29,14 +55,17 @@
     "Python.main.executor": "Run",
     "Python.methods.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/home/eduard/Рабочий стол/AM-CP/Numerical-Methods/SPbU-AM-CP-Numerical-Methods/Интерполирование/Сплайны/Splines.py",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -50,7 +79,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.12 (Интерполирование)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -69,8 +97,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.180" />
-        <option value="bundled-python-sdk-85c76a3b01b3-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.180" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-PY-252.26830.99" />
+        <option value="bundled-python-sdk-164cda30dcd9-0af03a5fa574-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.26830.99" />
       </set>
     </attachedChunks>
   </component>
@@ -88,6 +116,7 @@
       <workItem from="1733306928060" duration="2170000" />
       <workItem from="1738064443074" duration="3163000" />
       <workItem from="1738657432757" duration="1469000" />
+      <workItem from="1760196216576" duration="4453000" />
     </task>
     <servers />
   </component>

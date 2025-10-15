@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/Интерполирование/Полиномы Лагранжа и Ньютона/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/Теория_погрешностей/.venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.12 (SPbU-AM-CP-Numerical-Methods)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
